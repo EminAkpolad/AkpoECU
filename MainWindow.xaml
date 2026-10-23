@@ -1,0 +1,441 @@
+﻿<Window x:Class="CoruhECU.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CoruhECU | Makine Teşhis ve Araz Teşhis Sistemi"
+        Width="1500" Height="850"
+        MinWidth="1100" MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#020A12"
+        Foreground="#D8E8F5"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="Bg" Color="#03101B"/>
+        <SolidColorBrush x:Key="Panel" Color="#061522"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#1B3547"/>
+        <SolidColorBrush x:Key="Blue" Color="#19B9FF"/>
+        <SolidColorBrush x:Key="Green" Color="#45E36B"/>
+        <SolidColorBrush x:Key="Red" Color="#FF5158"/>
+        <SolidColorBrush x:Key="Muted" Color="#7893A8"/>
+
+        <Style TargetType="Border" x:Key="PanelStyle">
+            <Setter Property="Background" Value="{StaticResource Panel}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="SectionTitle">
+            <Setter Property="Foreground" Value="{StaticResource Blue}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="#DCEAF5"/>
+            <Setter Property="Background" Value="#091B29"/>
+            <Setter Property="BorderBrush" Value="#294357"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Height" Value="5"/>
+            <Setter Property="Foreground" Value="{StaticResource Green}"/>
+            <Setter Property="Background" Value="#243847"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2.2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ÜST BİLGİ BAŞLIĞI (HEADER) -->
+        <Border Grid.Row="0" Style="{StaticResource PanelStyle}" Padding="12,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center" Margin="5,0">
+                    <TextBlock Text="SİSTEM GENEL BAKIŞ" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock Text="CoruhECU  /  BİRİM 01" Foreground="{StaticResource Blue}" FontSize="10" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="MOD" Foreground="{StaticResource Blue}" FontSize="10"/>
+                    <TextBlock Text="◉  ÇEVRİMDIŞI" Foreground="{StaticResource Muted}" FontSize="15" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock Text="DURUM" Foreground="{StaticResource Blue}" FontSize="10"/>
+                    <TextBlock Text="■  BEKLEMEDE" FontSize="15" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                    <TextBlock Text="BAĞLANTI" Foreground="{StaticResource Blue}" FontSize="10"/>
+                    <TextBlock Text="CİHAZ BAĞLI DEĞİL" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <Border Grid.Column="4" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Padding="10,6" VerticalAlignment="Center">
+                    <TextBlock Text="ECU  —" Foreground="{StaticResource Muted}" FontWeight="Bold"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ANA KONTROL VE GÖSTERGE PANELİ -->
+        <Grid Grid.Row="1" Margin="0,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.1*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="1.6*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="1.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- SOL KONTROL BUTONLARI -->
+            <Border Grid.Column="0" Style="{StaticResource PanelStyle}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="KONTROLLER" Style="{StaticResource SectionTitle}" Margin="0,0,0,6"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Button BorderBrush="#267B42" Height="40">
+                                <StackPanel>
+                                    <TextBlock Text="▶  CİHAZA BAĞLAN" FontWeight="Bold"/>
+                                    <TextBlock Text="ADAPTÖR ARA" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Height="40">
+                                <StackPanel>
+                                    <TextBlock Text="⌕  ARIZA KODU OKU" FontWeight="Bold"/>
+                                    <TextBlock Text="MEVCUT ECU'LARI TARAMASI" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Height="40">
+                                <StackPanel>
+                                    <TextBlock Text="▣  CANLI VERİ" FontWeight="Bold"/>
+                                    <TextBlock Text="SENSÖR İZLEME" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Height="40">
+                                <StackPanel>
+                                    <TextBlock Text="◈  MAKİNE BİLGİSİ" FontWeight="Bold"/>
+                                    <TextBlock Text="KİMLİK TESPİTİ" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Height="40">
+                                <StackPanel>
+                                    <TextBlock Text="▤  TEŞHİS RAPORU" FontWeight="Bold"/>
+                                    <TextBlock Text="TARAMA GEÇMİŞİ" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Height="40" BorderBrush="#783B42">
+                                <StackPanel>
+                                    <TextBlock Text="⚠  ARIZALARI SİL" FontWeight="Bold"/>
+                                    <TextBlock Text="ECU DESTEĞİ GEREKİR" FontSize="9" Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- SOL SENSÖR KARTLARI -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="◉  YAĞ BASINCI" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— —" FontSize="24" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock Text="psi  |  VERİ YOK" Foreground="{StaticResource Muted}" FontSize="10"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="♨  YAĞ SICAKLIĞI" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— — °C" FontSize="22" FontWeight="Bold" Margin="0,2"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="♨  MOTOR SIVISI SIC." Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— — °C" FontSize="22" FontWeight="Bold" Margin="0,2"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- MERKEZİ MOTOR GÖSTERGESİ (RPM GAUGE) -->
+            <Border Grid.Column="2" Style="{StaticResource PanelStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="MOTOR İZLEME" Style="{StaticResource SectionTitle}"/>
+
+                    <Viewbox Grid.Row="1" Margin="5" Stretch="Uniform">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid Width="200" Height="140">
+                                <Ellipse Stroke="#233D50" StrokeThickness="12" Width="130" Height="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Ellipse Stroke="{StaticResource Blue}" StrokeThickness="4" Width="130" Height="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                <TextBlock Text="DEVİR (RPM)" FontSize="11" Foreground="{StaticResource Blue}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                                <TextBlock Text="— — —" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <TextBlock Text="MOTOR VERİSİ ALINAMIYOR" Foreground="{StaticResource Muted}" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="10,4" HorizontalAlignment="Center">
+                                <TextBlock Text="●  BAĞLI DEĞİL" Foreground="{StaticResource Muted}" FontSize="10" FontWeight="Bold"/>
+                            </Border>
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Border>
+
+            <!-- SAĞ SENSÖR KARTLARI -->
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="⛽  YAKIT BASINCI" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— — psi" FontSize="22" FontWeight="Bold" Margin="0,2"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="EMME HAVA SICAKLIĞI" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— — °C" FontSize="22" FontWeight="Bold" Margin="0,2"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Style="{StaticResource PanelStyle}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="BOOST (TURBO) BASINCI" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="— — psi" FontSize="22" FontWeight="Bold" Margin="0,2"/>
+                        <ProgressBar Value="0" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- SİSTEM DURUMU -->
+            <Border Grid.Column="4" Style="{StaticResource PanelStyle}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="SİSTEM DURUMU" Style="{StaticResource SectionTitle}" Margin="0,0,0,6"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="2,6">
+                                <DockPanel>
+                                    <TextBlock Text="Motor ECU" FontSize="11"/>
+                                    <TextBlock Text="ÇEVRİMDIŞI" DockPanel.Dock="Right" Foreground="{StaticResource Red}" FontSize="10" FontWeight="Bold"/>
+                                </DockPanel>
+                            </Border>
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="2,6">
+                                <DockPanel>
+                                    <TextBlock Text="CAN Veri Yolu" FontSize="11"/>
+                                    <TextBlock Text="ÇEVRİMDIŞI" DockPanel.Dock="Right" Foreground="{StaticResource Muted}" FontSize="10" FontWeight="Bold"/>
+                                </DockPanel>
+                            </Border>
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="2,6">
+                                <DockPanel>
+                                    <TextBlock Text="Teşhis Adaptörü" FontSize="11"/>
+                                    <TextBlock Text="YOK" DockPanel.Dock="Right" Foreground="{StaticResource Muted}" FontSize="10" FontWeight="Bold"/>
+                                </DockPanel>
+                            </Border>
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="2,6">
+                                <DockPanel>
+                                    <TextBlock Text="Arıza Taraması" FontSize="11"/>
+                                    <TextBlock Text="YAPILMADI" DockPanel.Dock="Right" Foreground="{StaticResource Muted}" FontSize="10" FontWeight="Bold"/>
+                                </DockPanel>
+                            </Border>
+                            <TextBlock Text="Uyumlu bir teşhis adaptörü bağlandığında durum güncellenecektir." TextWrapping="Wrap" FontSize="9" Foreground="{StaticResource Muted}" Margin="2,8"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- ALT PANELLER -->
+        <Grid Grid.Row="2" Margin="0,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.1*"/>
+                <ColumnDefinition Width="1.1*"/>
+                <ColumnDefinition Width="1.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- CANLI VERİ TREDLERİ -->
+            <Border Grid.Column="0" Style="{StaticResource PanelStyle}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="CANLI VERİ  /  SENSÖR EĞİLİMLERİ" Style="{StaticResource SectionTitle}" Margin="0,0,0,8"/>
+                    <UniformGrid Columns="2" Rows="2">
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="2" Padding="6">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="YAĞ BASINCI" FontSize="10" Foreground="{StaticResource Blue}"/>
+                                <TextBlock Text="Veri bekleniyor..." Foreground="{StaticResource Muted}" Margin="0,4"/>
+                                <ProgressBar Value="0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="2" Padding="6">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="SOĞUTMA SIVISI SIC." FontSize="10" Foreground="{StaticResource Blue}"/>
+                                <TextBlock Text="Veri bekleniyor..." Foreground="{StaticResource Muted}" Margin="0,4"/>
+                                <ProgressBar Value="0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="2" Padding="6">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="YAKIT BASINCI" FontSize="10" Foreground="{StaticResource Blue}"/>
+                                <TextBlock Text="Veri bekleniyor..." Foreground="{StaticResource Muted}" Margin="0,4"/>
+                                <ProgressBar Value="0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="4" Margin="2" Padding="6">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="MOTOR DEVİRİ (RPM)" FontSize="10" Foreground="{StaticResource Blue}"/>
+                                <TextBlock Text="Veri bekleniyor..." Foreground="{StaticResource Muted}" Margin="0,4"/>
+                                <ProgressBar Value="0"/>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+
+            <!-- AKTİF ARIZALAR -->
+            <Border Grid.Column="1" Style="{StaticResource PanelStyle}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="AKTİF ARIZALAR" Style="{StaticResource SectionTitle}" Margin="0,0,0,8"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Teşhis taraması yapılmadı." FontWeight="Bold" TextWrapping="Wrap" Margin="0,2"/>
+                        <TextBlock Text="Arıza kodlarını görmek için uyumlu bir adaptör bağlayıp ECU'yu tarayın." Foreground="{StaticResource Muted}" FontSize="10" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- TEŞHİS MODÜLLERİ -->
+            <Border Grid.Column="2" Style="{StaticResource PanelStyle}">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="TEŞHİS MODÜLLERİ" Style="{StaticResource SectionTitle}" Margin="0,0,0,8"/>
+                    <UniformGrid Columns="2" Rows="4">
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="MOTOR" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ŞANZIMAN" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="HİDROLİK" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ELEKTRİK" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="EGZOZ İŞLEME" FontSize="8" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="SENSÖRLER" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="TEST EDİLMEDİ" Foreground="{StaticResource Muted}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="CAN AĞI" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="ÇEVRİMDIŞI" Foreground="{StaticResource Red}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4">
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ADAPTÖR" FontSize="9" FontWeight="Bold"/>
+                                <TextBlock Text="BULUNAMADI" Foreground="{StaticResource Red}" FontSize="8"/>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- ALT BİLGİ VE AYARLAR (FOOTER) -->
+        <Border Grid.Row="3" Style="{StaticResource PanelStyle}" Padding="10,6" Margin="4,6,4,4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="SİSTEM SAĞLIĞI" FontSize="9" Foreground="{StaticResource Muted}"/>
+                    <TextBlock Text="DOĞRULANMADI" Foreground="{StaticResource Muted}" FontWeight="Bold" FontSize="11"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="BAĞLI ECU" FontSize="9" Foreground="{StaticResource Muted}"/>
+                    <TextBlock Text="0" Foreground="{StaticResource Blue}" FontWeight="Bold" FontSize="11"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock Text="AKTİF ARIZALAR" FontSize="9" Foreground="{StaticResource Muted}"/>
+                    <TextBlock Text="TARANMADI" Foreground="{StaticResource Muted}" FontWeight="Bold" FontSize="11"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                    <TextBlock Text="UYGULAMA" FontSize="9" Foreground="{StaticResource Muted}"/>
+                    <TextBlock Text="CoruhECU" Foreground="{StaticResource Blue}" FontWeight="Bold" FontSize="11"/>
+                </StackPanel>
+
+                <Button Grid.Column="4" VerticalAlignment="Center" Content="⚙  AYARLAR" Padding="14,6"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
